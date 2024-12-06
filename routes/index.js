@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
+// Routing stuff.
 router.get('/', async (req, res) => {
     try {
       const data = await fetchDataFromDatabase();

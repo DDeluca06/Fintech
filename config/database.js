@@ -2,6 +2,7 @@
 import { Sequelize } from "sequelize";
 import 'dotenv/config';
 
+// Signing login details
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,

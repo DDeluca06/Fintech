@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
+// Creating our outline for our table
 const User = sequelize.define(
     "User",
     {
@@ -40,6 +41,7 @@ const User = sequelize.define(
     }
   );
   
+  // Associate to models
 User.associate = (models) => {
   };
 

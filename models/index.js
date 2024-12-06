@@ -1,6 +1,7 @@
 import User from './user.js';
 import Transaction from './transaction.js';
 
+// Model array.
 const models = {
   User,
   Transaction,
