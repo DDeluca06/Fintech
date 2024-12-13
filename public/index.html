@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTech Transaction Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">FinTech App</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#transactions">Transactions</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>Welcome to Your Financial Dashboard</h2>
+        <p>Manage your transactions and track your finances in real-time.</p>
+        <button class="cta-button" onclick="showLogin()">Login</button>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogin()">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm" action="/login" method="POST" onsubmit="handleLogin(event)">
+                <input type="text" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSignup()">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signupForm" action="/signup" method="POST" onsubmit="handleSignup(event)">
+                <input type="text" placeholder="First Name" name="first_name" required>
+                <input type="text" placeholder="Last Name" name="last_name" required>
+                <input type="email" placeholder="Email" name="email" required>
+                <input type="password" placeholder="Password" name="password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+    
+    <button class="cta-button" onclick="showSignup()">Sign Up</button>
+
+    <div id="dashboard" class="dashboard">
+        <h2>Dashboard</h2>
+        <div class="analytics">
+            <h3>Real-time Financial Analytics</h3>
+            <div id="analyticsData">You must be logged in to see analytics.</div>
+        </div>
+        <div class="transactions">
+            <h3>Your Transactions</h3>
+            <ul id="transactionList">You must be logged in to see transaction history.</ul>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 FinTech App. All rights reserved.</p>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>

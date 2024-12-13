@@ -13,4 +13,6 @@ const sequelize = new Sequelize(
     }
 );
 
+console.log("Database Connection Status:", true)
+
 export default sequelize;
