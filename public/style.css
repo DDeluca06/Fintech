@@ -117,6 +117,20 @@ footer {
     margin-top: 20px;
 }
 
+.footer {
+    height: 60px; /* Set a fixed height for the footer */
+    background-color: #337ab7;
+    color: white; /* White text color */
+    padding: 10px;
+    text-align: center; /* Center text */
+    position: relative; /* Position relative for stacking context */
+    bottom: 0; /* Stick to the bottom */
+    width: 100%; /* Full width */
+    display: flex; /* Flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+}
+
 /* Add styles for the sign-up modal */
 #signupModal {
     display: none; /* Hidden by default */

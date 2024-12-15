@@ -25,7 +25,7 @@ const Transaction = sequelize.define(
       allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM("credit", "debit"),
+      type: DataTypes.ENUM("withdrawl", "deposit"),
       allowNull: false,
     },
     date: {
@@ -40,6 +40,10 @@ const Transaction = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    credit: {
+      type: DataTypes.TINYINT(1),
+      allowNull: false,
+    }
   },
   {
     modelName: "Transaction",

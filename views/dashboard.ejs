@@ -3,37 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - FinTech App</title>
-    <link rel="stylesheet" href="style.css">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/style.css"> 
 </head>
+<style> /* Shouldn't be using this inline, but I'm too lazy to add it to the main CSS file and see how it interacts with all the other stuff on the index. */
+    /* General button styles */
+button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white;
+    padding: 6px 20px; /* Padding for top/bottom and left/right */
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px; /* Margin for spacing */
+    cursor: pointer;
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-button {
+    background-color: #c22e2e;
+    padding: 4px 16px;
+}
+
+.delete-button:hover {
+    background-color: #911616;
+    transform: scale(1.05);
+}
+
+
+select{
+    background-color: #4c5adb; /* Blue background */
+    border: none; /* Remove borders */
+    color: white;
+    padding: 6px 6px; /* Padding for top/bottom and left/right */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Fixing the table appearance to be a little more readable */
+table {
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 20px; /* Space above the table */
+}
+
+th, td {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add a bottom border for separation */
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border-top: 2px solid #333;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    button {
+        padding: 10px 20px; /* Adjust padding for smaller screens */
+        font-size: 14px;
+    }
+}
+</style>
 <body>
     <header>
-        <div class="logo">FinTech App</div>
+        <h1>Welcome, <%= user.firstName %> <%= user.lastName %></h1>
         <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#transactions">Transactions</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+            <form action="/logout" method="POST" style="display: inline;">
+                <button type="submit">Log Out</button>
+            </form>
         </nav>
     </header>
 
-    <div class="dashboard">
-        <h2>Dashboard</h2>
-        <div class="analytics">
-            <h3>Real-time Financial Analytics</h3>
-            <div id="analyticsData">Loading...</div>
-        </div>
-        <div class="transactions">
-            <h3>Your Transactions</h3>
-            <ul id="transactionList"></ul>
-        </div>
-    </div>
+    <main>
+        <section>
+            <h2>Your Balance</h2>
+            <p>$<%= user.balance.toFixed(2) %></p>
+        </section>
 
-    <footer>
-        <p>&copy; 2023 FinTech App. All rights reserved.</p>
+        <section>
+            <h3>Transaction History</h3>
+            <table>
+                <thead>
+                    <tr> <!-- This should be spaced out a bit more, but I just need it to **work**. -->
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody> <!-- If we have transactions, list them here, and show their details. If not, show no transactions found. -->
+                    <% if (transactions.length > 0) { %>
+                        <% transactions.forEach(transaction => { %>
+                            <tr>
+                                <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+                                <td><%= transaction.type %></td>
+                                <td>$<%= transaction.amount != null && !isNaN(Number(transaction.amount)) ? Number(transaction.amount).toFixed(2) : 'N/A' %></td> <!-- I have no idea what's going on here, but it works. -->
+                                <td><%= transaction.status %></td>
+                                <td><%= transaction.description || 'N/A' %></td>
+                                <td>
+                                    <button class="delete-button" data-id="<%= transaction.id %>">Delete</button> <!-- This should allow us to delete transactions. -->
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">No transactions found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <form action="/transactions" method="POST">
+                <input type="number" name="amount" placeholder="Amount" required>
+                <input type="text" name="description" id="description" placeholder="Description">
+                <select name="transactionType" required>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdrawal">Withdrawal</option>
+                </select>
+                <button type="submit">Submit Transaction</button>
+                <br>
+                <p id='charCount'>255 characters remaining</p>
+            </form>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Fintech. All rights reserved.</p>
     </footer>
-    <script src="dashboard.js" defer></script>
+    <script src="/dashboard.js"></script>
 </body>
 </html>
