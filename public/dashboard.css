@@ -1,0 +1,71 @@
+button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white;
+    padding: 6px 20px; /* Padding for top/bottom and left/right */
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px; /* Margin for spacing */
+    cursor: pointer;
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-button {
+    background-color: #c22e2e;
+    padding: 4px 16px;
+}
+
+.delete-button:hover {
+    background-color: #911616;
+    transform: scale(1.05);
+}
+
+
+select{
+    background-color: #4c5adb; /* Blue background */
+    border: none; /* Remove borders */
+    color: white;
+    padding: 6px 6px; /* Padding for top/bottom and left/right */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Fixing the table appearance to be a little more readable */
+table {
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 20px; /* Space above the table */
+}
+
+th, td {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add a bottom border for separation */
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border-top: 2px solid #333;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    button {
+        padding: 10px 20px; /* Adjust padding for smaller screens */
+        font-size: 14px;
+    }
+}
