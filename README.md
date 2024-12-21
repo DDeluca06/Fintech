@@ -22,3 +22,22 @@ Funds can be deposited and withdrawn by the user with ease and tracked.
 ### Prerequisites
 - **Node.JS**
 - A **MySQL** database
+
+### Installation
+1. **Clone the repository:**
+- `git clone https://github.com/DDeluca06/fintech.git`
+2. **Install Dependencies**
+- `npm install bcrypt dotenv ejs express express-session sequelize`
+3. **Set up the database:**
+- Create your SQL database
+- Structure your `.env` file to match the following:
+```plaintext
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_HOST= 
+PORT= 
+SECRET=
+```
+4. **Run & Observe!**
+`npm start` OR `npx nodemon`
