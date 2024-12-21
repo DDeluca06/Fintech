@@ -25,35 +25,38 @@ Funds can be deposited and withdrawn by the user with ease and tracked.
 
 # Project Tree
 ```plaintext
+Fintech/
 │
-├── README.md
-├── package.json
-├── config\
+├── config/
 │   └── database.js
 │
-├── models\
+├── models/
 │   ├── index.js
 │   ├── transaction.js
 │   └── user.js
 │
-├── routes\
+├── public/
+│   ├── css/
+│   │   ├── dashboard.css
+│   │   └── style.css
+│   ├── html/
+│   │   └── index.html
+│   ├── js/
+│   │   ├── dashboard.js
+│   │   ├── login.js
+│   │   ├── script.js
+│   │   └── signup.js
+│   └── images/
+│
+├── routes/
 │   └── index.js
 │
-├── public\
-│   ├── css\
-│   │   ├── style.css
-│   │   └── dashboard.css
-│   │
-│   ├── html\
-│   │   └── index.html
-│   │
-│   └── js\
-│       ├── script.js
-│       ├── dashboard.js
-│       ├── login.js
-│       └── signup.js
+├── utils/
+│   └── db.js
 │
-└── app.js
+├── app.js
+├── package.json
+└── README.md
 ```
 
 ### Installation
