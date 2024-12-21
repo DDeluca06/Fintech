@@ -1,3 +1,6 @@
+import Transaction from '../models/transaction.js';
+import User from '../models/user.js';
+
 // Function to fetch data from the database
 async function fetchDataFromDatabase() {
     try {
@@ -27,4 +30,3 @@ async function fetchDataFromDatabase() {
 
 // Export, dummy. That one's important, dontcha think?
 export { fetchDataFromDatabase };
-
