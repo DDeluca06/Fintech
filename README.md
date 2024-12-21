@@ -23,6 +23,42 @@ Funds can be deposited and withdrawn by the user with ease and tracked.
 - **Node.JS**
 - A **MySQL** database
 
+# Project Tree
+```plaintext
+Fintech/
+│
+├── config/
+│   └── database.js
+│
+├── models/
+│   ├── index.js
+│   ├── transaction.js
+│   └── user.js
+│
+├── public/
+│   ├── css/
+│   │   ├── dashboard.css
+│   │   └── style.css
+│   ├── html/
+│   │   └── index.html
+│   ├── js/
+│   │   ├── dashboard.js
+│   │   ├── login.js
+│   │   ├── script.js
+│   │   └── signup.js
+│   └── images/
+│
+├── routes/
+│   └── index.js
+│
+├── utils/
+│   └── db.js
+│
+├── app.js
+├── package.json
+└── README.md
+```
+
 ### Installation
 1. **Clone the repository:**
 - `git clone https://github.com/DDeluca06/fintech.git`
