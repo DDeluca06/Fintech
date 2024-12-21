@@ -1,14 +1,18 @@
 import User from './user.js';
 import Transaction from './transaction.js';
 
-// Model array.
 const models = {
-  User,
-  Transaction,
+    User,
+    Transaction,
 };
 
 // Define associations
-User.associate(models);
-Transaction.associate(models);
+Object.keys(models).forEach(modelName => {
+    if (models[modelName].associate) {
+        models[modelName].associate(models);
+    }
+});
 
+export { User, Transaction };
 export default models;
+

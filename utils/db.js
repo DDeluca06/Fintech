@@ -1,12 +1,11 @@
-import Transaction from '../models/transaction.js';
-import User from '../models/user.js';
+import models from '../models/index.js';
 
 // Function to fetch data from the database
 async function fetchDataFromDatabase() {
     try {
-        const users = await User.findAll({
+        const users = await models.User.findAll({
             include: [{
-                model: Transaction,
+                model: models.Transaction,
                 as: 'transactions',
                 required: false
             }]

@@ -8,10 +8,18 @@ class User extends Model {
     async comparePassword(password) {
         return await bcrypt.compare(password, this.password_hash);
     }
+
+    // Define associations
+    static associate(models) {
+        User.hasMany(models.Transaction, {
+            foreignKey: 'user_id',
+            as: 'transactions',
+        });
+    }
 }
 
 // Initialize the User model
-User .init({
+User.init({
     user_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
