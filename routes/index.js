@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import Transaction from '../models/transaction.js';
 import User from '../models/user.js';
+import { fetchDataFromDatabase } from '../utils/db.js';
 
 // Routing
 router.get("/", async (req, res) => {

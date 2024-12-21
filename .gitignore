@@ -2,4 +2,4 @@
 .env
 /JavaScript
 /horseshit
-node_modules/
+/node_modules
