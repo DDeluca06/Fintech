@@ -1,4 +1,3 @@
-// models/user.js
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database.js';
 import bcrypt from 'bcrypt';
@@ -49,8 +48,8 @@ User.init({
         allowNull: false,
     },
 }, {
-    sequelize, // Pass the connection instance
-    modelName: 'User ', // Name of the model
+    sequelize: sequelize, // Pass the connection instance
+    modelName: 'User', // Name of the model
     tableName: 'users', // Name of the table in the database
     timestamps: false, // Disable timestamps if not needed
     hooks: {

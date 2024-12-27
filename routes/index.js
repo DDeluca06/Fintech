@@ -17,10 +17,14 @@ router.get("/", async (req, res) => {
 
 // Log-In Route
 router.post("/login", async (req, res) => {
+  console.log("Login request body:", req.body); // Debugging line
   const { email, password } = req.body; // Check Email & Password
 
   try {
+      console.log("Attempting to log in with email:", email); // Debugging line
       const user = await User.findOne({ where: { email } }); // Check if user exists in database
+      console.log("User Found:", user); // Debugging line
+      console.log("User Found:", user); // Debugging line
       if (!user) {
           return res.status(401).send("Invalid credentials. Please try again.");
       } // If user does not exist, return 401.
@@ -63,34 +67,32 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// Dashboard route
 router.get('/dashboard', async (req, res) => {
-  if (req.session.isLoggedIn) {
-      try {
-          // Fetch the user based on the session 
-          const user = await User.findOne({ where: { email: req.session.userEmail } });
+  if (!req.session.isLoggedIn) {
+    return res.redirect('/');
+  }
 
-          // Fetch user's transactions
-          const transactions = await Transaction.findAll({
-              where: { user_id: user.user_id },
-              order: [['date', 'DESC']], // Order by date, most recent first
-          });
+  try {
+    const user = await User.findOne({ where: { email: req.session.userEmail } });
+    const transactions = await Transaction.findAll({
+      where: { user_id: user.user_id },
+      order: [['date', 'DESC']],
+    });
 
-          // Render the dashboard with user data
-          res.render('dashboard', {
-              user: {
-                  firstName: user.first_name,
-                  lastName: user.last_name,
-                  balance: user.balance,
-              },
-              transactions,
-          });
-      } catch (error) {
-          console.error("Error fetching user data:", error);
-          res.status(500).send("Internal Server Error");
-      }
-  } else {
-      res.redirect('/'); // Redirect to the login page if not logged in
+    const transactionCount = transactions.length; // Define transactionCount
+
+    res.render('dashboard', {
+      user: {
+        firstName: user.first_name,
+        lastName: user.last_name,
+        balance: user.balance,
+      },
+      transactions,
+      transactionCount,
+    });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
@@ -129,8 +131,9 @@ router.post('/transactions', async (req, res) => {
           await User.update({ balance: newBalance }, { where: { email: req.session.userEmail } });
 
           // Create a new transaction record for depositing
-          await Transaction.create({
-              user_id: user.user_id,
+console.log("Creating Transaction:", { user_id: user.user_id, amount, description, transactionType });
+await Transaction.create({
+    user_id: user.user_id,
               type: 'deposit',
               amount: parseFloat(amount),
               status: 'complete',

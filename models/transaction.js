@@ -1,10 +1,19 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database.js';
 import User from './user.js'; // Import to complete keys
 
+class Transaction extends Model {
+    // Define associations
+    static associate(models) {
+        Transaction.belongsTo(models.User, {
+            foreignKey: 'user_id',
+            as: 'user',
+        });
+    }
+}
+
 // Creating the table
-const Transaction = sequelize.define(
-  "Transaction",
+Transaction.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -46,18 +55,12 @@ const Transaction = sequelize.define(
     }
   },
   {
+    sequelize: sequelize,
     modelName: "Transaction",
     tableName: "transactions",
     timestamps: false,
   }
 );
 
-// Associate
-Transaction.associate = (models) => {
-  Transaction.belongsTo(models.User, {
-    foreignKey: 'user_id',
-    as: 'user',
-  });
-};
-
+// Export the Transaction model
 export default Transaction;
