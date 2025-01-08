@@ -1,14 +1,18 @@
 import express from "express";
 const router = express.Router();
-import Transaction from '../models/transaction.js';
-import User from '../models/user.js';
 import { fetchDataFromDatabase } from '../utils/db.js';
+import models from '../models/index.js';
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); // If you looked at this and went "why is this here??", yeah. Me too. It shouldn't be, but it's the only way this goddamn diabolical thing works.
 
 // Routing
 router.get("/", async (req, res) => {
   try {
-    const data = await fetchDataFromDatabase();
-    res.render("dashboard", { data });
+    // Get index
+    res.sendFile(path.join(__dirname, "../public/html/index.html"));
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -22,8 +26,7 @@ router.post("/login", async (req, res) => {
 
   try {
       console.log("Attempting to log in with email:", email); // Debugging line
-      const user = await User.findOne({ where: { email } }); // Check if user exists in database
-      console.log("User Found:", user); // Debugging line
+      const user = await models.User.findOne({ where: { email } }); // Check if user exists in database
       console.log("User Found:", user); // Debugging line
       if (!user) {
           return res.status(401).send("Invalid credentials. Please try again.");
@@ -48,12 +51,12 @@ router.post("/signup", async (req, res) => {
 
   try {
       // Check if a user with the same email already exists
-      const existingUser = await User.findOne({ where: { email } });
+      const existingUser = await models.User.findOne({ where: { email } });
       if (existingUser) {
           return res.status(409).send("Email already in use. Please use a different email."); // 409 Conflict
       }
       // Create a new user
-      const newUser  = await User.create({
+      const newUser  = await models.User.create({
           first_name,
           last_name,
           email,
@@ -73,13 +76,13 @@ router.get('/dashboard', async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ where: { email: req.session.userEmail } });
-    const transactions = await Transaction.findAll({
+    const user = await models.User.findOne({ where: { email: req.session.userEmail } });
+    const transactions = await models.Transaction.findAll({
       where: { user_id: user.user_id },
       order: [['date', 'DESC']],
     });
 
-    const transactionCount = transactions.length; // Define transactionCount
+    const transactionCount = transactions ? transactions.length : 0;
 
     res.render('dashboard', {
       user: {
@@ -122,17 +125,17 @@ router.post('/transactions', async (req, res) => {
   }
 
   try {
-      const user = await User.findOne({ where: { email: req.session.userEmail } });
+      const user = await models.User.findOne({ where: { email: req.session.userEmail } });
       let newBalance;
 
       if (transactionType === 'deposit') {
           newBalance = user.balance + parseFloat(amount);
           // Update user's balance
-          await User.update({ balance: newBalance }, { where: { email: req.session.userEmail } });
+          await models.User.update({ balance: newBalance }, { where: { email: req.session.userEmail } });
 
           // Create a new transaction record for depositing
 console.log("Creating Transaction:", { user_id: user.user_id, amount, description, transactionType });
-await Transaction.create({
+await models.Transaction.create({
     user_id: user.user_id,
               type: 'deposit',
               amount: parseFloat(amount),
@@ -146,10 +149,10 @@ await Transaction.create({
           }
           newBalance = user.balance - parseFloat(amount);
           // Update user's balance
-          await User.update({ balance: newBalance }, { where: { email: req.session.userEmail } });
+          await models.User.update({ balance: newBalance }, { where: { email: req.session.userEmail } });
 
           // Create a new transaction record for withdrawing (should these be seperate routes??)
-          await Transaction.create({
+          await models.Transaction.create({
               user_id: user.user_id,
               type: 'withdrawal',
               amount: parseFloat(amount),
@@ -176,7 +179,7 @@ router.delete('/transactions/:id', async (req, res) => {
 
     // Find the transaction
   try {
-      const transaction = await Transaction.findOne({
+      const transaction = await models.Transaction.findOne({
           where: { id: transactionId }
       });
     // If we can't find it, tell the user to get bent
@@ -184,7 +187,7 @@ router.delete('/transactions/:id', async (req, res) => {
           return res.status(404).send("Transaction not found.");
       }
     // Find our user, this might be a good step.
-      const user = await User.findOne({
+      const user = await models.User.findOne({
           where: { user_id: transaction.user_id }
       });
     // Can't find him! ... Should this be the first thing we do? Oh, who cares.
@@ -199,9 +202,9 @@ router.delete('/transactions/:id', async (req, res) => {
           newBalance = user.balance + transaction.amount;
       }
 
-      await User.update({ balance: newBalance }, { where: { user_id: user.user_id } });
+      await models.User.update({ balance: newBalance }, { where: { user_id: user.user_id } });
 
-      await Transaction.destroy({
+      await models.Transaction.destroy({
           where: { id: transactionId }
       });
 

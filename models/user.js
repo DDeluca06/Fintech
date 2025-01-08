@@ -1,3 +1,4 @@
+// models/user.js
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database.js';
 import bcrypt from 'bcrypt';
@@ -6,14 +7,6 @@ class User extends Model {
     // Method to compare password during login
     async comparePassword(password) {
         return await bcrypt.compare(password, this.password_hash);
-    }
-
-    // Define associations
-    static associate(models) {
-        User.hasMany(models.Transaction, {
-            foreignKey: 'user_id',
-            as: 'transactions',
-        });
     }
 }
 

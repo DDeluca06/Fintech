@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Dashboard</title>
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/dashboard.css" />
+    <link rel="stylesheet" href="../public/css/dashboard.css"/>
+    <link rel="stylesheet" href="../public/css/style.css"/>
   </head>
   <body>
     <header>
-      <h1>Welcome, <%= data.firstName %> <%= data.lastName %></h1>
+      <h1>Welcome, <%= user.firstName %> <%= user.lastName %></h1>
       <nav>
         <form action="/logout" method="POST" style="display: inline">
           <button type="submit">Log Out</button>
@@ -20,7 +20,7 @@
     <main>
       <section>
         <h2>Your Balance</h2>
-        <p>$<%= data.balance ? data.balance.toFixed(2) : '0.00' %></p>
+        <p>$<%= user.balance ? user.balance.toFixed(2) : '0.00' %></p>
       </section>
 
       <section>
@@ -38,7 +38,7 @@
             <% if (transactionCount > 0) { %> <% transactions.forEach((transaction, index) => { %>
             <tr>
               <td><%= new Date(transaction.date).toLocaleDateString() %></td>
-              <td>$<%= transaction.amount.toFixed(2) %></td>
+              <td>$<%= parseFloat(transaction.amount).toFixed(2) %></td>
               <td><%= transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) %></td>
               <td><%= transaction.description || 'No description' %></td>
             </tr>

@@ -2,15 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database.js';
 import User from './user.js'; // Import to complete keys
 
-class Transaction extends Model {
-    // Define associations
-    static associate(models) {
-        Transaction.belongsTo(models.User, {
-            foreignKey: 'user_id',
-            as: 'user',
-        });
-    }
-}
+class Transaction extends Model {}
 
 // Creating the table
 Transaction.init(
@@ -58,7 +50,7 @@ Transaction.init(
     sequelize: sequelize,
     modelName: "Transaction",
     tableName: "transactions",
-    timestamps: false,
+    timestamps: true,
   }
 );
 

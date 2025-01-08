@@ -6,7 +6,6 @@ async function fetchDataFromDatabase() {
         const users = await models.User.findAll({
             include: [{
                 model: models.Transaction,
-                as: 'transactions',
                 required: false
             }]
         });
@@ -17,7 +16,7 @@ async function fetchDataFromDatabase() {
             firstName: user.first_name,
             lastName: user.last_name,
             balance: user.balance,
-            transactions: user.transactions || []
+            transactions: user.Transactions || [] // Ensure correct case
         }));
 
         return data;
@@ -27,5 +26,5 @@ async function fetchDataFromDatabase() {
     }
 }
 
-// Export, dummy. That one's important, dontcha think?
+// Export the function
 export { fetchDataFromDatabase };
